@@ -3,6 +3,7 @@ const app = express();
 const mongoose = require('mongoose');
 const path = require('path');
 const methodOverride = require('method-override');
+const Place = require('./models/place')
 
 //Connecting to mongoose
 mongoose.set('strictQuery', true)
@@ -16,38 +17,51 @@ db.once("open", () => {
     console.log("Database connected");
 });
 
+app.use(methodOverride('_method'));
+
 //Setting EJS
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, 'views'))
 
 app.get('/', (req, res) => {
-    res.render('home')
+    res.render('home', { places })
 })
 
-app.get('/places', (req, res) => {
-    res.render('places/index')
+app.use(express.urlencoded({ extended: true }));
+
+
+app.get('/places', async (req, res) => {
+    const places = await Place.find({});
+    res.render('places/index', { places })
 })
 
 
 app.get('/places/new', (req, res) => {
     res.render('places/new')
 })
-app.post('places', (req, res) => {
-    res.send('making post')
+app.post('/places', async (req, res) => {
+    const place = new Place(req.body)
+    console.log(await place.save());
+    res.redirect('places')
 })
 
-app.get('/places/:id', (req, res) => {
-    res.render('places/show')
+app.get('/places/:id', async (req, res) => {
+    const place = await Place.findById(req.params.id);
+    res.render('places/show', { place })
 })
 
-app.get('/places/:id/edit', (req, res) => {
-    res.render('places/edit')
+app.get('/places/:id/edit', async (req, res) => {
+    const place = await Place.findById(req.params.id);
+    res.render('places/edit', { place })
 })
-app.put('/places/:id', (req, res) => {
-    res.send('editing place')
+app.put('/places/:id', async (req, res) => {
+    const { id } = req.params;
+    const place = await Place.findByIdAndUpdate(id, { ...req.body.place }, { new: true });
+    res.redirect(`/places/${id}`);
 })
-app.delete('/places/:id', (req, res) => {
-    res.send('deleting place')
+app.delete('/places/:id', async (req, res) => {
+    const place = await Place.findByIdAndDelete(req.params.id);
+    res.redirect('/places')
 })
 
 app.listen(3000, () => {

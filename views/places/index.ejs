@@ -9,7 +9,17 @@
 </head>
 
 <body>
-    <h1>All Campgrounds</h1>
+    <h1>Make new study spot</h1>
+    <a href="/places/new">Add New Study Spot</a>
+    <h1>All Study Spots</h1>
+    <ul>
+        <% for (let spot of places) { %>
+            <li>
+                <%= spot.title%>
+                    <a href="/places/<%= spot._id%> ">details</a>
+            </li>
+            <% } %>
+    </ul>
 </body>
 
 </html>
