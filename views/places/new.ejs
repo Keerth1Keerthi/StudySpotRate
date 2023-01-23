@@ -1,31 +1,59 @@
 <% layout('layouts/boilerplate') %>
-    <h1>Make new study spot</h1>
-    <form action="/places" method="POST">
-        <div>
-            <label for="title">Title</label>
-            <input type="text" name="title" id="title" placeholder="building or title">
-        </div>
-        <div>
-            <label for="location">Location</label>
-            <input type="location" name="location" id="location" placeholder="location">
-        </div>
-        <div>
-            <label for="rating">Rating</label>
-            <input type="number" name="rating" id="rating" min="1" max="5">
-        </div>
-        <div>
-            <div>
-                <label for="tags">Additional Descriptors</label>
+    <h1 class="text-center">Make new study spot</h1>
+    </h1>
+    <div class="col-6 offset-3">
+
+        <form action="/places" method="POST" class="mb-2 needs-validation" novalidate>
+            <div class="mb-3">
+                <label for="title" class="form-label">Title:</label>
+                <input type="text" class="form-control" name="place[title]" id="title" placeholder="Title" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+                <div class="invalid-feedback">
+                    Please give a title.
+                </div>
             </div>
-            <!-- change additional descriptors to checkboxes -->
-            <select name="tags" id="tags" multiple>
-                <option value="quiet">quiet</option>
-                <option value="pretty view">pretty view</option>
-                <option value="has computers">has computers</option>
-                <option value="clean">clean</option>
-                <option value="empty">empty</option>
-            </select>
+            <div class="mb-3">
+                <label for="location" class="form-label">Location:</label>
+                <input type="text" class="form-control" name="place[location]" id="location" placeholder="Location""
+                required>
+            <div class=" valid-feedback">
+                Looks good!
+            </div>
+            <div class="invalid-feedback">
+                Please give a location.
+            </div>
+    </div>
+    <div class="mb-3">
+        <label for="description" class="form-label">Description:</label>
+        <textarea class="form-control" name="place[description]" id="description" required></textarea>
+        <div class="valid-feedback">
+            Looks good!
         </div>
-        <button>Submit</button>
-        <a href="/places">Cancel</a>
+        <div class="invalid-feedback">
+            Please give a description.
+        </div>
+    </div>
+    <div class="mb-3">
+        <label for="tags">Additional Descriptors: </label>
+        <select class="form-select" name="place[tags]" id="tags" multiple required>
+            <option value="quiet">quiet</option>
+            <option value="pretty view">pretty view</option>
+            <option value="has computers">has computers</option>
+            <option value="clean">clean</option>
+            <option value="empty">empty</option>
+        </select>
+        <div class="form-text">
+            Can choose multiple tags
+        </div>
+        <div class="valid-feedback">
+            Looks good!
+        </div>
+    </div>
+    <button type="submit" class="btn btn-success d-inline">Submit</button>
     </form>
+    <form class="mb-3 d-inline" action="/places>" method="GET">
+        <button type="submit" class="btn btn-warning">Cancel</button>
+    </form>
+    </div>

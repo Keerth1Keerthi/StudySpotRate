@@ -42,9 +42,10 @@ app.get('/places/new', (req, res) => {
     res.render('places/new')
 })
 app.post('/places', async (req, res) => {
-    const place = new Place(req.body)
+    const place = new Place(req.body.place)
     console.log(await place.save());
-    res.redirect('places')
+    res.send(place)
+    //res.redirect('places')
 })
 
 app.get('/places/:id', async (req, res) => {
