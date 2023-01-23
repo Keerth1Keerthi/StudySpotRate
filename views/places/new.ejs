@@ -1,43 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
+<% layout('layouts/boilerplate') %>
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Study Spot</title>
-</head>
-
-<body>
-    <h1>Make new study spot</h1>
-    <form action="/places" method="POST">
-        <div>
-            <label for="title">Title</label>
-            <input type="text" name="title" id="title" placeholder="building or title">
-        </div>
-        <div>
-            <label for="location">Location</label>
-            <input type="location" name="location" id="location" placeholder="location">
-        </div>
-        <div>
-            <label for="rating">Rating</label>
-            <input type="number" name="rating" id="rating" min="1" max="5">
-        </div>
-        <div>
+    <body>
+        <h1>Make new study spot</h1>
+        <form action="/places" method="POST">
             <div>
-                <label for="tags">Additional Descriptors</label>
+                <label for="title">Title</label>
+                <input type="text" name="title" id="title" placeholder="building or title">
             </div>
-            <!-- change additional descriptors to checkboxes -->
-            <select name="tags" id="tags" multiple>
-                <option value="quiet">quiet</option>
-                <option value="pretty view">pretty view</option>
-                <option value="has computers">has computers</option>
-                <option value="clean">clean</option>
-                <option value="empty">empty</option>
-            </select>
-        </div>
-        <button>Submit</button>
-    </form>
-</body>
+            <div>
+                <label for="location">Location</label>
+                <input type="location" name="location" id="location" placeholder="location">
+            </div>
+            <div>
+                <label for="rating">Rating</label>
+                <input type="number" name="rating" id="rating" min="1" max="5">
+            </div>
+            <div>
+                <div>
+                    <label for="tags">Additional Descriptors</label>
+                </div>
+                <!-- change additional descriptors to checkboxes -->
+                <select name="tags" id="tags" multiple>
+                    <option value="quiet">quiet</option>
+                    <option value="pretty view">pretty view</option>
+                    <option value="has computers">has computers</option>
+                    <option value="clean">clean</option>
+                    <option value="empty">empty</option>
+                </select>
+            </div>
+            <button>Submit</button>
+            <a href="/places">Cancel</a>
+        </form>
+    </body>
 
-</html>
+    </html>

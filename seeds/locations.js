@@ -4,5 +4,6 @@ module.exports =
         "Second Floor",
         "Third Floor",
         "Fourth Floor",
-        "Classroom"
+        "Classroom",
+        "Lounge",
     ]

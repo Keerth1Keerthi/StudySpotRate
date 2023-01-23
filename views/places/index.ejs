@@ -1,25 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Index</title>
-</head>
-
-<body>
-    <h1>Make new study spot</h1>
-    <a href="/places/new">Add New Study Spot</a>
-    <h1>All Study Spots</h1>
+<% layout('layouts/boilerplate') %>
+    <h1 class="text-center">All Study Spots</h1>
     <ul>
         <% for (let spot of places) { %>
-            <li>
-                <%= spot.title%>
-                    <a href="/places/<%= spot._id%> ">details</a>
-            </li>
+            <div class="card mb-3">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="<%=spot.image%>" class="img-fluid rounded-start" alt="place's images">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <%= spot.title %>
+                            </h5>
+                            <p class="card-text">
+                                <%=spot.location%>
+                            </p>
+                            <p class="card-text text-muted">
+                                <%=spot.description%>
+                            </p>
+                        </div>
+                        <div class="card-body">
+                            <% for (let tag of spot.tags) { %>
+                                <span class="rounded bg-light p-2 m-1">
+                                    <span class="text-success">&#10003;</span>
+                                    <span>
+                                        <%=tag %>
+                                    </span>
+                                </span>
+                                <% } %>
+                        </div>
+                        <div class="card-body">
+                            <a href="/places/<%=spot._id%>" class="btn btn-primary">More Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <% } %>
     </ul>
-</body>
-
-</html>

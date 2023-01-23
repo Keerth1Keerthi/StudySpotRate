@@ -3,7 +3,8 @@ const app = express();
 const mongoose = require('mongoose');
 const path = require('path');
 const methodOverride = require('method-override');
-const Place = require('./models/place')
+const ejsMate = require('ejs-mate');
+const Place = require('./models/place');
 
 //Connecting to mongoose
 mongoose.set('strictQuery', true)
@@ -20,11 +21,12 @@ db.once("open", () => {
 app.use(methodOverride('_method'));
 
 //Setting EJS
+app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, 'views'))
 
 app.get('/', (req, res) => {
-    res.render('home', { places })
+    res.render('home')
 })
 
 app.use(express.urlencoded({ extended: true }));

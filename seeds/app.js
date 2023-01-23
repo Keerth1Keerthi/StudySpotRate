@@ -24,7 +24,9 @@ const createPlace = async function () {
             title: randomize(names),
             averageRating: Math.round(Math.random() * 5, 2),
             location: randomize(locations),
-            tags: randomize(tags)
+            tags: randomize(tags),
+            image: 'https://source.unsplash.com/collection/4480212',
+            description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Soluta voluptatibus dolor deserunt maxime ad iure magni autem, expedita hic sed et quia perspiciatis rem beatae cumque consequatur nemo, iste cupiditate.'
         });
         await newPlace.save();
     }
