@@ -1,31 +1,60 @@
 <% layout('layouts/boilerplate') %>
-    <h1>Edit <%= place.title %>
+    <h1 class="text-center">Edit <%= place.title %>
     </h1>
-    <form action="/places/<%=place._id%>?_method=PUT" method="POST">
-        <div>
-            <label for="title">Title</label>
-            <input type="text" name="place[title]" id="title" value="<%=place.title%>">
-        </div>
-        <div>
-            <label for="location">Location</label>
-            <input type="location" name="place[location]" id="location" value="<%=place.location%>">
-        </div>
-        <div>
-            <div>
-                <label for="tags">Additional Descriptors</label>
+    <form action="/places/<%=place._id%>?_method=PUT" method="POST" class="mb-3 needs-validation" novalidate>
+        <div class="mb-3">
+            <label for="title" class="form-label">Title:</label>
+            <input type="text" class="form-control" name="place[title]" id="title" value="<%=place.title%>" required>
+            <div class="valid-feedback">
+                Looks good!
             </div>
-            <!-- change additional descriptors to checkboxes -->
-            <select name="place[tags]" id="tags" multiple>
+            <div class="invalid-feedback">
+                Please give a title.
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="location" class="form-label">Location:</label>
+            <input type="text" class="form-control" name="place[location]" id="location" value="<%=place.location%>"
+                required>
+            <div class="valid-feedback">
+                Looks good!
+            </div>
+            <div class="invalid-feedback">
+                Please give a location.
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Description:</label>
+            <textarea class="form-control" name="place[description]" id="description"
+                required>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsum nesciunt sint error soluta officiis pariatur impedit perspiciatis aspernatur, ullam id quidem non nam delectus blanditiis doloribus quos maxime suscipit consequatur.</textarea>
+            <div class="valid-feedback">
+                Looks good!
+            </div>
+            <div class="invalid-feedback">
+                Please give a description.
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="tags">Additional Descriptors: </label>
+            <select class="form-select" name="place[tags]" id="tags" multiple required>
                 <option value="quiet">quiet</option>
                 <option value="pretty view">pretty view</option>
                 <option value="has computers">has computers</option>
                 <option value="clean">clean</option>
                 <option value="empty">empty</option>
             </select>
+            <div class="form-text">
+                Can choose multiple tags
+            </div>
+            <div class="valid-feedback">
+                Looks good!
+            </div>
         </div>
-        <button>Submit</button>
-        <a href="/places/<%= place._id %>">Cancel</a>
+        <button type="submit" class="btn btn-success">Save Changes</button>
     </form>
-    <form action="/places/<%=place._id%>?_method=DELETE" method="POST">
-        <button>Delete</button>
+    <form class="mb-3" action="/places/<%=place._id%>" method="GET">
+        <button type="submit" class="btn btn-info">Cancel</button>
+    </form>
+    <form class="" action="/places/<%=place._id%>?_method=DELETE" method="POST">
+        <button type="submit" class="btn btn-danger">Delete</button>
     </form>
