@@ -1,12 +1,38 @@
 <% layout('layouts/boilerplate') %>
 
-    <body>
-        <h1>Looking at spot <%= place.title %>
-        </h1>
-        <form action="/places/<%= place._id %>/edit" method="GET">
-            <button>Edit</button>
-        </form>
-        <a href="/places">All Study Spots</a>
-    </body>
+    <div class="col-md-6">
+        <div class="card">
+            <img src="<%=place.image%>" class="card-img-top" alt="place's image">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <%=place.title%>
+                </h5>
+                <p class="card-text text-muted">
+                    <%= place.location%>
+                </p>
+                <p class="card-text">
+                    <%= place.description %>
+                </p>
+            </div>
+            <div class="card-body">
 
-    </html>
+                <% for (let tag of place.tags) { %>
+                    <span class="rounded bg-light mx-1">
+                        <span class="text-success">&#10003;</span>
+                        <span>
+                            <%=tag %>
+                        </span>
+                    </span>
+                    <% } %>
+            </div>
+            <div class="card-body">
+                <form action="/places/<%= place._id %>/edit" method="GET" class="d-inline mb-3">
+
+                    <button class="btn btn-warning">Edit</button>
+                </form>
+                <form action="/places" class="d-inline">
+                    <button class="btn btn-info">View All</button>
+                </form>
+            </div>
+        </div>
+    </div>
