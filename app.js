@@ -7,7 +7,9 @@ const ejsMate = require('ejs-mate');
 //Error Handling
 const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/ExpressError');
+const Joi = require('joi');
 const Place = require('./models/place');
+const { placeSchema } = require('./schemas')
 
 //Connecting to mongoose
 mongoose.set('strictQuery', true)
@@ -28,6 +30,16 @@ app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, 'views'))
 
+const validatePlace = (req, res, next) => {
+    const { error } = placeSchema.validate(req.body);
+    if (error) {
+        const msg = error.details.map(el => el.message).join(',');
+        throw new ExpressError(msg, 400);
+    } else {
+        next()
+    }
+}
+
 app.get('/', (req, res) => {
     res.render('home')
 })
@@ -44,7 +56,7 @@ app.get('/places', async (req, res) => {
 app.get('/places/new', (req, res) => {
     res.render('places/new')
 })
-app.post('/places', catchAsync(async (req, res) => {
+app.post('/places', validatePlace, catchAsync(async (req, res) => {
     const place = new Place(req.body.place)
     console.log(await place.save());
     res.redirect('places')
@@ -60,7 +72,7 @@ app.get('/places/:id/edit', catchAsync(async (req, res) => {
     res.render('places/edit', { place })
 }))
 
-app.put('/places/:id', catchAsync(async (req, res) => {
+app.put('/places/:id', validatePlace, catchAsync(async (req, res) => {
     const { id } = req.params;
     const place = await Place.findByIdAndUpdate(id, { ...req.body.place }, { new: true });
     res.redirect(`/places/${id}`);
