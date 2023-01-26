@@ -12,7 +12,6 @@ const Place = require('./models/place');
 const Review = require('./models/review');
 
 const { placeSchema } = require('./schemas');
-const { array } = require('joi');
 
 //Connecting to mongoose
 mongoose.set('strictQuery', true)
@@ -33,15 +32,9 @@ app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, 'views'))
 
-const validatePlace = (req, res, next) => {
-    const { error } = placeSchema.validate(req.body);
-    if (error) {
-        const msg = error.details.map(el => el.message).join(',');
-        throw new ExpressError(msg, 400);
-    } else {
-        next()
-    }
-}
+//Routing
+const placesRoutes = require('./routes/places')
+app.use('/places', placesRoutes)
 
 app.get('/', (req, res) => {
     res.render('home')
@@ -49,41 +42,6 @@ app.get('/', (req, res) => {
 
 app.use(express.urlencoded({ extended: true }));
 
-
-app.get('/places', async (req, res) => {
-    const places = await Place.find({});
-    res.render('places/index', { places })
-})
-
-
-app.get('/places/new', (req, res) => {
-    res.render('places/new')
-})
-app.post('/places', validatePlace, catchAsync(async (req, res) => {
-    const place = new Place(req.body.place)
-    await place.save()
-    res.redirect('places')
-}))
-
-app.get('/places/:id', catchAsync(async (req, res) => {
-    const place = await Place.findById(req.params.id).populate('reviews');
-    res.render('places/show', { place })
-}))
-
-app.get('/places/:id/edit', catchAsync(async (req, res) => {
-    const place = await Place.findById(req.params.id);
-    res.render('places/edit', { place })
-}))
-
-app.put('/places/:id', validatePlace, catchAsync(async (req, res) => {
-    const { id } = req.params;
-    const place = await Place.findByIdAndUpdate(id, { ...req.body.place }, { new: true });
-    res.redirect(`/places/${id}`);
-}))
-app.delete('/places/:id', catchAsync(async (req, res) => {
-    const place = await Place.findByIdAndDelete(req.params.id);
-    res.redirect('/places')
-}))
 app.post('/places/:id/reviews', catchAsync(async (req, res, next) => {
     const review = new Review(req.body.review);
     await review.save();
