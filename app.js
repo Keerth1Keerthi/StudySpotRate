@@ -9,7 +9,10 @@ const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/ExpressError');
 const Joi = require('joi');
 const Place = require('./models/place');
-const { placeSchema } = require('./schemas')
+const Review = require('./models/review');
+
+const { placeSchema } = require('./schemas');
+const { array } = require('joi');
 
 //Connecting to mongoose
 mongoose.set('strictQuery', true)
@@ -58,12 +61,12 @@ app.get('/places/new', (req, res) => {
 })
 app.post('/places', validatePlace, catchAsync(async (req, res) => {
     const place = new Place(req.body.place)
-    console.log(await place.save());
+    await place.save()
     res.redirect('places')
 }))
 
 app.get('/places/:id', catchAsync(async (req, res) => {
-    const place = await Place.findById(req.params.id);
+    const place = await Place.findById(req.params.id).populate('reviews');
     res.render('places/show', { place })
 }))
 
@@ -81,7 +84,18 @@ app.delete('/places/:id', catchAsync(async (req, res) => {
     const place = await Place.findByIdAndDelete(req.params.id);
     res.redirect('/places')
 }))
-
+app.post('/places/:id/reviews', catchAsync(async (req, res, next) => {
+    const review = new Review(req.body.review);
+    await review.save();
+    const place = await Place.findById(req.params.id).populate('reviews');
+    place.reviews.push(review)
+    await place.save()
+    res.redirect(`/places/${req.params.id}`);
+}))
+app.delete('/places/:id/reviews/:reviewId', catchAsync(async (req, res, next) => {
+    const review = await Review.findByIdAndDelete(req.params.reviewId);
+    res.redirect(`/places/${req.params.id}`)
+}))
 app.all('*', (req, res, next) => {
     next(new ExpressError('Page Not Found', 404))
 
