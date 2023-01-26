@@ -31,37 +31,21 @@ app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, 'views'))
 
-const validatePlace = (req, res, next) => {
-    const { error } = placeSchema.validate(req.body);
-    if (error) {
-        const msg = error.details.map(el => el.message).join(',');
-        throw new ExpressError(msg, 400);
-    } else {
-        next()
-    }
-}
+//middleware
 app.use(methodOverride('_method'));
 app.use(express.urlencoded({ extended: true }));
 
+//routes
 const placeRoutes = require('./routes/places')
 app.use('/places', placeRoutes)
+
+const reviewsRoutes = require('./routes/reviews')
+app.use('/places/:id/reviews', reviewsRoutes)
 
 app.get('/', (req, res) => {
     res.render('home')
 })
 
-app.post('/places/:id/reviews', catchAsync(async (req, res, next) => {
-    const review = new Review(req.body.review);
-    await review.save();
-    const place = await Place.findById(req.params.id).populate('reviews');
-    place.reviews.push(review)
-    await place.save()
-    res.redirect(`/places/${req.params.id}`);
-}))
-app.delete('/places/:id/reviews/:reviewId', catchAsync(async (req, res, next) => {
-    const review = await Review.findByIdAndDelete(req.params.reviewId);
-    res.redirect(`/places/${req.params.id}`)
-}))
 app.all('*', (req, res, next) => {
     next(new ExpressError('Page Not Found', 404))
 
