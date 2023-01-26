@@ -10,7 +10,6 @@ const { placeSchema } = require('../schemas');
 const validatePlace = (req, res, next) => {
     const { error } = placeSchema.validate(req.body);
     if (error) {
-        console.log('ERROR VALIDATE PLACE')
         const msg = error.details.map(el => el.message).join(',');
         throw new ExpressError(msg, 400);
     } else {
@@ -31,22 +30,17 @@ router.get('/new', (req, res) => {
 })
 
 router.get('/:id', catchAsync(async (req, res) => {
-    console.log('ERROR PRE FINDBYID')
     const place = await Place.findById(req.params.id).populate('reviews');
-    console.log('ERROR POST FINDBYID')
-    console.log('PLACEEE ', place)
     res.render('places/show', { place })
 }))
 
 router.put('/:id', validatePlace, catchAsync(async (req, res) => {
     const { id } = req.params;
-    console.log('PLACEEe', req.body.place)
-    const place = await Place.findByIdAndUpdate(id, { ...req.body.place }, { new: true });
-    console.log('PUTTINGGGG', place);
+    await Place.findByIdAndUpdate(id, { ...req.body.place }, { new: true });
     res.redirect(`/places/${id}`);
 }))
 router.delete('/:id', catchAsync(async (req, res) => {
-    const place = await Place.findByIdAndDelete(req.params.id);
+    await Place.findByIdAndDelete(req.params.id);
     res.redirect('/places')
 }))
 
@@ -54,4 +48,5 @@ router.get('/:id/edit', catchAsync(async (req, res) => {
     const place = await Place.findById(req.params.id);
     res.render('places/edit', { place })
 }))
+
 module.exports = router

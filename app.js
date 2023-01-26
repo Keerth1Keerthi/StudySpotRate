@@ -12,6 +12,7 @@ const Place = require('./models/place');
 const Review = require('./models/review');
 
 const { placeSchema } = require('./schemas');
+const { array } = require('joi');
 
 //Connecting to mongoose
 mongoose.set('strictQuery', true)
@@ -25,22 +26,29 @@ db.once("open", () => {
     console.log("Database connected");
 });
 
-app.use(methodOverride('_method'));
-
 //Setting EJS
 app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, 'views'))
 
-//Routing
-const placesRoutes = require('./routes/places')
-app.use('/places', placesRoutes)
+const validatePlace = (req, res, next) => {
+    const { error } = placeSchema.validate(req.body);
+    if (error) {
+        const msg = error.details.map(el => el.message).join(',');
+        throw new ExpressError(msg, 400);
+    } else {
+        next()
+    }
+}
+app.use(methodOverride('_method'));
+app.use(express.urlencoded({ extended: true }));
+
+const placeRoutes = require('./routes/places')
+app.use('/places', placeRoutes)
 
 app.get('/', (req, res) => {
     res.render('home')
 })
-
-app.use(express.urlencoded({ extended: true }));
 
 app.post('/places/:id/reviews', catchAsync(async (req, res, next) => {
     const review = new Review(req.body.review);
