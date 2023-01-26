@@ -6,39 +6,21 @@ const catchAsync = require('../utils/catchAsync');
 const Place = require('../models/place');
 const { validatePlace } = require('../middleware')
 
+const places = require('../controllers/places')
 
-router.get('/', catchAsync(async (req, res) => {
-    const places = await Place.find({});
-    res.render('places/index', { places })
-}))
+router.route('/')
+    .get(catchAsync(places.index))
+    .post(validatePlace, catchAsync(places.createPlace))
 
-router.post('/', validatePlace, catchAsync(async (req, res) => {
-    const place = new Place(req.body.place)
-    await place.save()
-    res.redirect('/places')
-}))
-router.get('/new', (req, res) => {
-    res.render('places/new')
-})
+router.route('/new')
+    .get(places.renderNewForm)
 
-router.get('/:id', catchAsync(async (req, res) => {
-    const place = await Place.findById(req.params.id).populate('reviews');
-    res.render('places/show', { place })
-}))
+router.route('/:id')
+    .get(catchAsync(places.showPlace))
+    .put(validatePlace, catchAsync(places.updatePlace))
+    .delete(catchAsync(places.deletePlace))
 
-router.put('/:id', validatePlace, catchAsync(async (req, res) => {
-    const { id } = req.params;
-    await Place.findByIdAndUpdate(id, { ...req.body.place }, { new: true });
-    res.redirect(`/places/${id}`);
-}))
-router.delete('/:id', catchAsync(async (req, res) => {
-    await Place.findByIdAndDelete(req.params.id);
-    res.redirect('/places')
-}))
-
-router.get('/:id/edit', catchAsync(async (req, res) => {
-    const place = await Place.findById(req.params.id);
-    res.render('places/edit', { place })
-}))
+router.route('/:id/edit')
+    .get(catchAsync(places.renderEditForm))
 
 module.exports = router
