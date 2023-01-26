@@ -9,3 +9,10 @@ module.exports.placeSchema = Joi.object({
         //image: Joi.String().required()
     }).required()
 })
+
+module.exports.reviewSchema = Joi.object({
+    review: Joi.object({
+        rating: Joi.number().required(),
+        text: Joi.string().required()
+    }).required()
+})

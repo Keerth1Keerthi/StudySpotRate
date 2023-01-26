@@ -2,28 +2,20 @@ const express = require('express')
 const router = express.Router();
 
 const catchAsync = require('../utils/catchAsync');
+
 const Place = require('../models/place');
+const { validatePlace } = require('../middleware')
 
-const { placeSchema } = require('../schemas');
 
-
-const validatePlace = (req, res, next) => {
-    const { error } = placeSchema.validate(req.body);
-    if (error) {
-        const msg = error.details.map(el => el.message).join(',');
-        throw new ExpressError(msg, 400);
-    } else {
-        next()
-    }
-}
 router.get('/', catchAsync(async (req, res) => {
     const places = await Place.find({});
     res.render('places/index', { places })
 }))
+
 router.post('/', validatePlace, catchAsync(async (req, res) => {
     const place = new Place(req.body.place)
     await place.save()
-    res.redirect('places')
+    res.redirect('/places')
 }))
 router.get('/new', (req, res) => {
     res.render('places/new')

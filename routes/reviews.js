@@ -3,8 +3,9 @@ const router = express.Router({ mergeParams: true });
 const catchAsync = require('../utils/catchAsync');
 const Review = require('../models/review');
 const Place = require('../models/place')
+const { validateReview } = require('../middleware')
 
-router.post('/', catchAsync(async (req, res, next) => {
+router.post('/', validateReview, catchAsync(async (req, res, next) => {
     const review = new Review(req.body.review);
     await review.save();
     const place = await Place.findById(req.params.id).populate('reviews');

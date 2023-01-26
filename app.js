@@ -7,12 +7,6 @@ const ejsMate = require('ejs-mate');
 //Error Handling
 const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/ExpressError');
-const Joi = require('joi');
-const Place = require('./models/place');
-const Review = require('./models/review');
-
-const { placeSchema } = require('./schemas');
-const { array } = require('joi');
 
 //Connecting to mongoose
 mongoose.set('strictQuery', true)
