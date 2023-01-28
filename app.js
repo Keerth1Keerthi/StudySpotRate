@@ -1,9 +1,10 @@
 const express = require('express');
-const app = express();
 const mongoose = require('mongoose');
 const path = require('path');
 const methodOverride = require('method-override');
+
 const ejsMate = require('ejs-mate');
+const session = require('express-session')
 //Error Handling
 const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/ExpressError');
@@ -20,6 +21,8 @@ db.once("open", () => {
     console.log("Database connected");
 });
 
+const app = express();
+
 //Setting EJS
 app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs')
@@ -28,12 +31,23 @@ app.set('views', path.join(__dirname, 'views'))
 //middleware
 app.use(methodOverride('_method'));
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'public')))
+
+const sessionConfig = {
+    secret: "secrettt",
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        expires: Date.now() * 1000 * 60 * 60 * 24 * 7,
+    }
+}
+app.use(session(sessionConfig))
 
 //routes
 const placeRoutes = require('./routes/places')
 app.use('/places', placeRoutes)
 
-const reviewsRoutes = require('./routes/reviews')
+const reviewsRoutes = require('./routes/reviews');
 app.use('/places/:id/reviews', reviewsRoutes)
 
 app.get('/', (req, res) => {
