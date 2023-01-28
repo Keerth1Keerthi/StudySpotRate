@@ -18,6 +18,10 @@ module.exports.renderNewForm = (req, res) => {
 
 module.exports.showPlace = async (req, res) => {
     const place = await Place.findById(req.params.id).populate('reviews');
+    if (!place) {
+        req.flash('error', 'Could not find study spot')
+        return res.redirect('/places')
+    }
     res.render('places/show', { place })
 }
 module.exports.updatePlace = async (req, res) => {
@@ -33,5 +37,9 @@ module.exports.deletePlace = async (req, res) => {
 }
 module.exports.renderEditForm = async (req, res) => {
     const place = await Place.findById(req.params.id);
+    if (!place) {
+        req.flash('error', 'Could not find study spot')
+        return res.redirect('/places')
+    }
     res.render('places/edit', { place })
 }
