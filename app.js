@@ -4,7 +4,8 @@ const path = require('path');
 const methodOverride = require('method-override');
 
 const ejsMate = require('ejs-mate');
-const session = require('express-session')
+const session = require('express-session');
+const flash = require('connect-flash');
 //Error Handling
 const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/ExpressError');
@@ -33,6 +34,7 @@ app.use(methodOverride('_method'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')))
 
+
 const sessionConfig = {
     secret: "secrettt",
     resave: false,
@@ -42,12 +44,18 @@ const sessionConfig = {
     }
 }
 app.use(session(sessionConfig))
-
+app.use(flash())
+app.use((req, res, next) => {
+    res.locals.success = req.flash('success')
+    res.locals.error = req.flash('error')
+    next();
+})
 //routes
 const placeRoutes = require('./routes/places')
 app.use('/places', placeRoutes)
 
 const reviewsRoutes = require('./routes/reviews');
+const { nextTick } = require('process');
 app.use('/places/:id/reviews', reviewsRoutes)
 
 app.get('/', (req, res) => {

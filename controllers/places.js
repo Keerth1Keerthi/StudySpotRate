@@ -8,6 +8,7 @@ module.exports.index = async (req, res) => {
 module.exports.createPlace = async (req, res) => {
     const place = new Place(req.body.place)
     await place.save()
+    req.flash('success', 'Successfully added study spot!')
     res.redirect('/places')
 }
 
@@ -22,10 +23,12 @@ module.exports.showPlace = async (req, res) => {
 module.exports.updatePlace = async (req, res) => {
     const { id } = req.params;
     await Place.findByIdAndUpdate(id, { ...req.body.place }, { new: true });
+    req.flash('success', 'Successfully updated study spot!')
     res.redirect(`/places/${id}`);
 }
 module.exports.deletePlace = async (req, res) => {
     await Place.findByIdAndDelete(req.params.id);
+    req.flash('success', 'Successfully deleted study spot!')
     res.redirect('/places')
 }
 module.exports.renderEditForm = async (req, res) => {
