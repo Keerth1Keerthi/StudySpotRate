@@ -21,5 +21,14 @@ const validateReview = (req, res, next) => {
         next()
     }
 }
-module.exports.validatePlace = validatePlace;
-module.exports.validateReview = validateReview;
+
+const isLoggedIn = (req, res, next) => {
+    if (!req.isAuthenticated()) {
+        req.flash('error', 'You must be signed in to do that.')
+        return res.redirect('/login')
+    }
+    next();
+}
+module.exports.validatePlace = validatePlace
+module.exports.validateReview = validateReview
+module.exports.isLoggedIn = isLoggedIn

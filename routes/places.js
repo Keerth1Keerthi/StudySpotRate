@@ -4,16 +4,16 @@ const router = express.Router();
 const catchAsync = require('../utils/catchAsync');
 
 const Place = require('../models/place');
-const { validatePlace } = require('../middleware')
+const { validatePlace, isLoggedIn } = require('../middleware')
 
 const places = require('../controllers/places')
 
 router.route('/')
     .get(catchAsync(places.index))
-    .post(validatePlace, catchAsync(places.createPlace))
+    .post(isLoggedIn, validatePlace, catchAsync(places.createPlace))
 
 router.route('/new')
-    .get(places.renderNewForm)
+    .get(isLoggedIn, places.renderNewForm)
 
 router.route('/:id')
     .get(catchAsync(places.showPlace))
