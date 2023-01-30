@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 const Review = require('./review')
+const User = require('./user')
 const PlaceSchema = new Schema({
     title: String,
     averageRating: Number,
@@ -9,6 +10,10 @@ const PlaceSchema = new Schema({
     tags: [String],
     description: String,
     image: String,
+    author: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    },
     reviews: [{
         type: Schema.Types.ObjectId,
         ref: 'Review'

@@ -7,6 +7,7 @@ module.exports.index = async (req, res) => {
 
 module.exports.createPlace = async (req, res) => {
     const place = new Place(req.body.place)
+    place.author = req.user._id;
     await place.save()
     req.flash('success', 'Successfully added study spot!')
     res.redirect('/places')
@@ -17,7 +18,7 @@ module.exports.renderNewForm = (req, res) => {
 }
 
 module.exports.showPlace = async (req, res) => {
-    const place = await Place.findById(req.params.id).populate('reviews');
+    const place = await Place.findById(req.params.id).populate('reviews').populate('author');
     if (!place) {
         req.flash('error', 'Could not find study spot')
         return res.redirect('/places')

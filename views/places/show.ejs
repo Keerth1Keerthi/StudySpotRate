@@ -14,6 +14,9 @@
                     <p class="card-text">
                         <%= place.description %>
                     </p>
+                    <p class="card-text text-muted">
+                        Submitted by <%= place.author.username %>
+                    </p>
                 </div>
                 <div class="card-body">
 
@@ -27,13 +30,14 @@
                         <% } %>
                 </div>
                 <div class="card-body">
-                    <form action="/places/<%= place._id %>/edit" method="GET" class="d-inline mb-3">
-
-                        <button class="btn btn-warning">Edit</button>
-                    </form>
-                    <form action="/places" class="d-inline">
-                        <button class="btn btn-info">View All</button>
-                    </form>
+                    <% if (currentUser && currentUser.equals(place.author)) { %>
+                        <form action="/places/<%= place._id %>/edit" method="GET" class="d-inline mb-3">
+                            <button class="btn btn-warning">Edit</button>
+                        </form>
+                        <% } %>
+                            <form action="/places" class="d-inline">
+                                <button class="btn btn-info">View All</button>
+                            </form>
                 </div>
             </div>
         </div>
