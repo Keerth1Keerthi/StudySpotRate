@@ -17,10 +17,10 @@ router.route('/new')
 
 router.route('/:id')
     .get(catchAsync(places.showPlace))
-    .put(validatePlace, catchAsync(places.updatePlace))
-    .delete(catchAsync(places.deletePlace))
+    .put(isLoggedIn, validatePlace, catchAsync(places.updatePlace))
+    .delete(isLoggedIn, catchAsync(places.deletePlace))
 
 router.route('/:id/edit')
-    .get(catchAsync(places.renderEditForm))
+    .get(isLoggedIn, catchAsync(places.renderEditForm))
 
 module.exports = router
