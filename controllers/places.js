@@ -18,7 +18,12 @@ module.exports.renderNewForm = (req, res) => {
 }
 
 module.exports.showPlace = async (req, res) => {
-    const place = await Place.findById(req.params.id).populate('reviews').populate('author');
+    const place = await Place.findById(req.params.id).populate({
+        path: 'reviews',
+        populate: {
+            path: 'author'
+        }
+    }).populate('author');
     if (!place) {
         req.flash('error', 'Could not find study spot')
         return res.redirect('/places')

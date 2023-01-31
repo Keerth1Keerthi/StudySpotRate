@@ -1,6 +1,7 @@
 const { placeSchema, reviewSchema } = require('./schemas');
 const ExpressError = require('./utils/ExpressError');
 const Place = require('./models/place')
+const Review = require('./models/review')
 
 
 const validatePlace = (req, res, next) => {
@@ -35,14 +36,24 @@ const isLoggedIn = (req, res, next) => {
 const isAuthor = async (req, res, next) => {
     const id = req.params.id;
     const place = await Place.findById(id);
-    console.log(place)
     if (!place.author.equals(req.user._id)) {
         req.flash('error', 'You do have permission to do that!')
         return res.redirect(`/places/${id}`)
     }
     next()
 }
+const isReviewAuthor = async (req, res, next) => {
+    const reviewId = req.params.reviewId
+    const review = await Review.findById(reviewId)
+    if (!review.author.equals(req.user._id)) {
+        req.flash('error', 'You do not have permission to do that')
+        return res.redirect(`/places/${req.params.id}`)
+    }
+    next();
+
+}
 module.exports.validatePlace = validatePlace
 module.exports.validateReview = validateReview
 module.exports.isLoggedIn = isLoggedIn
 module.exports.isAuthor = isAuthor
+module.exports.isReviewAuthor = isReviewAuthor
