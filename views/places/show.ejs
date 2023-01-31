@@ -98,6 +98,7 @@
                                         </p>
                                         <p class="text-muted">Posted by <%= review.author.username%>
                                         </p>
+
                                         <% if (currentUser && review.author.equals(currentUser)) {%>
 
                                             <form action="/places/<%=place.id%>/reviews/<%=review.id%>?_method=DELETE"
