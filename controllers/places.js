@@ -1,4 +1,7 @@
 const Place = require('../models/place');
+const geocodeService = require('@mapbox/mapbox-sdk/services/geocoding');
+const MAPBOX_TOKEN = process.env.MAPBOX_TOKEN
+const geocodeClient = geocodeService({ accessToken: MAPBOX_TOKEN });
 
 module.exports.index = async (req, res) => {
     const places = await Place.find({});
@@ -9,7 +12,15 @@ module.exports.createPlace = async (req, res) => {
     const place = new Place(req.body.place)
     place.author = req.user._id;
     place.images = req.files.map(f => ({ url: f.path, filename: f.filwename }))
+
+    const geoData = await geocodeClient.forwardGeocode({
+        query: place.title + " " + place.location,
+        limit: 1
+    }).send()
+    place.geometry = geoData.body.features[0].geometry;
+
     await place.save()
+    console.log(place)
     req.flash('success', 'Successfully added study spot!')
     res.redirect(`/places/${place._id}`)
 }
