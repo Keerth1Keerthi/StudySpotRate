@@ -3,7 +3,7 @@
     </h1>
     <div class="col-6 offset-3">
 
-        <form action="/places" method="POST" class="mb-2 needs-validation" novalidate>
+        <form action="/places" method="POST" class="mb-2 needs-validation" novalidate enctype="multipart/form-data">
             <div class="mb-3">
                 <label for="title" class="form-label">Title:</label>
                 <input type="text" class="form-control" name="place[title]" id="title" placeholder="Title" required>
@@ -18,7 +18,7 @@
                 <label for="location" class="form-label">Location:</label>
                 <input type="text" class="form-control" name="place[location]" id="location" placeholder="Location""
                 required>
-            <div class=" valid-feedback">
+                <div class=" valid-feedback">
                 Looks good!
             </div>
             <div class="invalid-feedback">
@@ -34,6 +34,9 @@
         <div class="invalid-feedback">
             Please give a description.
         </div>
+    </div>
+    <div class="mb-3">
+        <input type="file" name="place[image]" id="image" multiple>
     </div>
     <div class="mb-3">
         <label for="tags">Additional Descriptors: </label>

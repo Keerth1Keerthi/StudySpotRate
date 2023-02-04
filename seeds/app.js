@@ -3,7 +3,7 @@ const Place = require('../models/place');
 const names = require('./names');
 const locations = require('./locations');
 const tags = require('./tags');
-
+mongoose.set('strictQuery', true);
 mongoose.connect('mongodb://localhost:27017/study-rate', {
     useNewUrlParser: true,
     useUnifiedTopology: true
@@ -26,7 +26,13 @@ const createPlace = async function () {
             location: randomize(locations),
             tags: randomize(tags),
             author: '63d74a11bb35b85722b98eff',
-            image: 'https://source.unsplash.com/collection/4480212',
+            images: [{
+                url: 'https://source.unsplash.com/collection/4480212',
+                filename: "BasicImage"
+            }, {
+                url: 'https://source.unsplash.com/collection/j9rrohIHD94',
+                filename: "BasicImage"
+            }],
             description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Soluta voluptatibus dolor deserunt maxime ad iure magni autem, expedita hic sed et quia perspiciatis rem beatae cumque consequatur nemo, iste cupiditate.'
         });
         await newPlace.save();

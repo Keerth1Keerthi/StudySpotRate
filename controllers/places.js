@@ -8,9 +8,10 @@ module.exports.index = async (req, res) => {
 module.exports.createPlace = async (req, res) => {
     const place = new Place(req.body.place)
     place.author = req.user._id;
+    place.images = req.files.map(f => ({ url: f.path, filname: f.filname }))
     await place.save()
     req.flash('success', 'Successfully added study spot!')
-    res.redirect('/places')
+    res.redirect(`/places/${place._id}`)
 }
 
 module.exports.renderNewForm = (req, res) => {
