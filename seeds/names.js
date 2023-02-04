@@ -1,7 +1,6 @@
 module.exports =
     [
-        "EDB",
-        "Allen Sustainable Education",
+        "Allen Sustainable Education Building",
         "Boggs Building",
         "Bunger-Henry Building",
         "Cherry Emerson Building",
@@ -13,12 +12,12 @@ module.exports =
         "Ford Building",
         "Howey Physics",
         "Instructional Center",
-        "Klaus",
+        "Klaus Building",
         "Kendeda",
         "Love Manufacturing",
         "Woodies Residence Hall",
         "Folk Residence Hall",
         "Montag Residence Hall",
-        "Willage",
-        "Crosland"
+        "Willage Dining Hall",
+        "Crosland Tower"
     ]
