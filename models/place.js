@@ -3,20 +3,23 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const Review = require('./review')
 const User = require('./user')
+
+const ImageSchema = new Schema({
+    url: String,
+    filename: String
+})
+
 const PlaceSchema = new Schema({
     title: String,
     averageRating: Number,
     location: String,
     tags: [String],
     description: String,
-    images: [{
-        url: String,
-        filename: String
-    }],
     author: {
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
+    images: [ImageSchema],
     reviews: [{
         type: Schema.Types.ObjectId,
         ref: 'Review'
