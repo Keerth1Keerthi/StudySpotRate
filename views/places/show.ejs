@@ -140,7 +140,8 @@
     </div>
 
     <script>
-        const mapToken = '<%-process.env.MAPBOX_TOKEN%>'
+        const mapToken = '<%-process.env.MAPBOX_TOKEN%>';
+        const place = <%- JSON.stringify(place) %>;
     </script>
     <script src='https://api.mapbox.com/mapbox-gl-js/v2.12.0/mapbox-gl.js'></script>
     <script src='/javascript/showPageMap.js'></script>

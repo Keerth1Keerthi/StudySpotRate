@@ -14,7 +14,7 @@ module.exports.createPlace = async (req, res) => {
     place.images = req.files.map(f => ({ url: f.path, filename: f.filwename }))
 
     const geoData = await geocodeClient.forwardGeocode({
-        query: place.title + " " + place.location,
+        query: place.location,
         limit: 1
     }).send()
     place.geometry = geoData.body.features[0].geometry;
