@@ -16,7 +16,7 @@ router.route('/new')
 
 router.route('/:id')
     .get(catchAsync(places.showPlace))
-    .put(isLoggedIn, isAuthor, validatePlace, catchAsync(places.updatePlace))
+    .put(isLoggedIn, isAuthor, upload.array('place[image]'), validatePlace, catchAsync(places.updatePlace))
     .delete(isLoggedIn, isAuthor, catchAsync(places.deletePlace))
 
 router.route('/:id/edit')

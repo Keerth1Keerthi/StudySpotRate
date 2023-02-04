@@ -2,7 +2,8 @@
     <h1 class="text-center">Edit <%= place.title %>
     </h1>
     <div class="col-6 offset-3">
-        <form action="/places/<%=place._id%>?_method=PUT" method="POST" class="mb-2 needs-validation" novalidate>
+        <form action="/places/<%=place._id%>?_method=PUT" method="POST" class="mb-2 needs-validation" novalidate
+            enctype="multipart/form-data">
             <div class="mb-3">
                 <label for="title" class="form-label">Title:</label>
                 <input type="text" class="form-control" name="place[title]" id="title" value="<%=place.title%>"
@@ -35,6 +36,10 @@
                 <div class="invalid-feedback">
                     Please give a description.
                 </div>
+            </div>
+            <div class="mb-3">
+                <label for="formFile" class="form-label">Add Images</label>
+                <input class="form-control" type="file" name="place[image]" id="formFile" multiple>
             </div>
             <div class="mb-3">
                 <label for="tags">Additional Descriptors: </label>

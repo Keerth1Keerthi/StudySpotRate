@@ -8,7 +8,7 @@ module.exports.index = async (req, res) => {
 module.exports.createPlace = async (req, res) => {
     const place = new Place(req.body.place)
     place.author = req.user._id;
-    place.images = req.files.map(f => ({ url: f.path, filname: f.filname }))
+    place.images = req.files.map(f => ({ url: f.path, filename: f.filwename }))
     await place.save()
     req.flash('success', 'Successfully added study spot!')
     res.redirect(`/places/${place._id}`)
@@ -33,7 +33,10 @@ module.exports.showPlace = async (req, res) => {
 }
 module.exports.updatePlace = async (req, res) => {
     const { id } = req.params;
-    await Place.findByIdAndUpdate(id, { ...req.body.place }, { new: true });
+    const place = await Place.findByIdAndUpdate(id, { ...req.body.place }, { new: true });
+    const imgs = req.files.map(f => ({ url: f.path, filename: f.filename }))
+    place.images.push(...imgs)
+    await place.save();
     req.flash('success', 'Successfully updated study spot!')
     res.redirect(`/places/${id}`);
 }
