@@ -9,6 +9,7 @@ const ImageSchema = new Schema({
     filename: String
 })
 
+const opts = { toJSON: { virtuals: true } };
 const PlaceSchema = new Schema({
     title: String,
     averageRating: Number,
@@ -35,7 +36,11 @@ const PlaceSchema = new Schema({
             required: true
         }
     }
-});
+}, opts);
+
+PlaceSchema.virtual('properties.popUpMarkup').get(function () {
+    return `<strong><a href="/places/${this._id}">${this.title}</a>`
+})
 
 const Place = mongoose.model('Place', PlaceSchema);
 
