@@ -36,9 +36,9 @@ const createPlace = async function () {
         const newPlace = new Place({
             title: name,
             averageRating: Math.round(Math.random() * 5, 2),
-            location: randomize(locations),
+            address: locationData.body.features[0].place_name,
             tags: randomize(tags),
-            author: '63d74a11bb35b85722b98eff',
+            author: '63d74c93446b03d74d81f744',
             images: [{
                 url: 'https://source.unsplash.com/collection/4480212',
                 filename: "BasicImage"

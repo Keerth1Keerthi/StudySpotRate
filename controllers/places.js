@@ -14,7 +14,7 @@ module.exports.createPlace = async (req, res) => {
     place.images = req.files.map(f => ({ url: f.path, filename: f.filwename }))
 
     const geoData = await geocodeClient.forwardGeocode({
-        query: place.location,
+        query: place.address,
         limit: 1
     }).send()
     place.geometry = geoData.body.features[0].geometry;
@@ -47,6 +47,11 @@ module.exports.updatePlace = async (req, res) => {
     const place = await Place.findByIdAndUpdate(id, { ...req.body.place }, { new: true });
     const imgs = req.files.map(f => ({ url: f.path, filename: f.filename }))
     place.images.push(...imgs)
+    const geoData = await geocodeClient.forwardGeocode({
+        query: place.address,
+        limit: 1
+    }).send()
+    place.geometry = geoData.body.features[0].geometry;
     await place.save();
     req.flash('success', 'Successfully updated study spot!')
     res.redirect(`/places/${id}`);

@@ -15,49 +15,48 @@
                 </div>
             </div>
             <div class="mb-3">
-                <label for="location" class="form-label">Location:</label>
-                <input type="text" class="form-control" name="place[location]" id="location" placeholder="Location""
-                required>
+                <label for="address" class="form-label">Address:</label>
+                <input type="text" class="form-control" name="place[address]" id="address" required>
                 <div class=" valid-feedback">
-                Looks good!
+                    Looks good!
+                </div>
+                <div class="invalid-feedback">
+                    Please give a location.
+                </div>
             </div>
-            <div class="invalid-feedback">
-                Please give a location.
+            <div class="mb-3">
+                <label for="description" class="form-label">Description:</label>
+                <textarea class="form-control" name="place[description]" id="description" required></textarea>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+                <div class="invalid-feedback">
+                    Please give a description.
+                </div>
             </div>
-    </div>
-    <div class="mb-3">
-        <label for="description" class="form-label">Description:</label>
-        <textarea class="form-control" name="place[description]" id="description" required></textarea>
-        <div class="valid-feedback">
-            Looks good!
-        </div>
-        <div class="invalid-feedback">
-            Please give a description.
-        </div>
-    </div>
-    <div class="mb-3">
-        <label for="formFile" class="form-label">Add Images</label>
-        <input class="form-control" type="file" name="place[image]" id="formFile" multiple>
-    </div>
-    <div class="mb-3">
-        <label for="tags">Additional Descriptors: </label>
-        <select class="form-select" name="place[tags]" id="tags" multiple required>
-            <option value="quiet">quiet</option>
-            <option value="pretty view">pretty view</option>
-            <option value="has computers">has computers</option>
-            <option value="clean">clean</option>
-            <option value="empty">empty</option>
-        </select>
-        <div class="form-text">
-            Can choose multiple tags
-        </div>
-        <div class="valid-feedback">
-            Looks good!
-        </div>
-    </div>
-    <button type="submit" class="btn btn-success d-inline">Submit</button>
-    </form>
-    <form class="mb-3 d-inline" action="/places>" method="GET">
-        <button type="submit" class="btn btn-warning">Cancel</button>
-    </form>
+            <div class="mb-3">
+                <label for="formFile" class="form-label">Add Images</label>
+                <input class="form-control" type="file" name="place[image]" id="formFile" multiple>
+            </div>
+            <div class="mb-3">
+                <label for="tags">Additional Descriptors: </label>
+                <select class="form-select" name="place[tags]" id="tags" multiple required>
+                    <option value="quiet">quiet</option>
+                    <option value="pretty view">pretty view</option>
+                    <option value="has computers">has computers</option>
+                    <option value="clean">clean</option>
+                    <option value="empty">empty</option>
+                </select>
+                <div class="form-text">
+                    Can choose multiple tags
+                </div>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+            <button type="submit" class="btn btn-success d-inline">Submit</button>
+        </form>
+        <form class="mb-3 d-inline" action="/places>" method="GET">
+            <button type="submit" class="btn btn-warning">Cancel</button>
+        </form>
     </div>

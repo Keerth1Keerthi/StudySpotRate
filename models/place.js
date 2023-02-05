@@ -12,7 +12,7 @@ const ImageSchema = new Schema({
 const PlaceSchema = new Schema({
     title: String,
     averageRating: Number,
-    location: String,
+    address: String,
     tags: [String],
     description: String,
     author: {
