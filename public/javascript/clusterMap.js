@@ -1,12 +1,33 @@
+
 mapboxgl.accessToken = 'pk.eyJ1IjoiY29kaW5nNDU0NSIsImEiOiJjbGRxY214dzIwdjc0M3ZzNTNsemZhbnJuIn0.b_BkyDTHGrRZWrC9BphG3A';
 const map = new mapboxgl.Map({
     container: 'map',
     // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
-    style: 'mapbox://styles/mapbox/light-v11',
+    style: 'mapbox://styles/mapbox/streets-v11',
     center: [-103.5917, 40.6699],
     zoom: 3
 });
+// center: [-84.387985, 33.748997],
+// zoom: 11
+const zoomBtn = document.querySelector('#zoom');
+const allBtn = document.querySelector('#all')
+zoomBtn.addEventListener('click', function (e) {
+    map.easeTo({
+        center: [-84.3963, 33.7756],
+        zoom: 14
+    });
+    zoomBtn.style.display = 'none';
+    allBtn.style.display = 'block';
 
+})
+allBtn.addEventListener('click', function () {
+    map.easeTo({
+        center: [-103.5917, 40.6699],
+        zoom: 3
+    });
+    allBtn.style.display = 'none';
+    zoomBtn.style.display = 'block';
+})
 map.on('load', () => {
     // Add a new source from our GeoJSON data and
     // set the 'cluster' option to true. GL-JS will
@@ -35,11 +56,11 @@ map.on('load', () => {
             'circle-color': [
                 'step',
                 ['get', 'point_count'],
-                '#f9dcc4',
+                '#f6b53d',
                 5,
-                '#fcd5ce',
+                '#ffb5a7',
                 10,
-                '#ffb5a7'
+                '#00c49a'
             ],
             'circle-radius': [
                 'step',
@@ -126,4 +147,5 @@ map.on('load', () => {
     map.on('mouseleave', 'clusters', () => {
         map.getCanvas().style.cursor = '';
     });
+    map.addControl(new mapboxgl.NavigationControl());
 });

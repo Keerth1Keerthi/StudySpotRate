@@ -1,8 +1,7 @@
 
 mapboxgl.accessToken = mapToken
-console.log(mapToken);
 const map = new mapboxgl.Map({
-    container: 'map', // container ID
+    container: 'showMap', // container ID
     style: 'mapbox://styles/mapbox/streets-v11', // style URL
     center: place.geometry.coordinates, // starting position [lng, lat]
     zoom: 14, // starting zoom
@@ -17,3 +16,4 @@ new mapboxgl.Marker()
             )
     )
     .addTo(map)
+map.addControl(new mapboxgl.NavigationControl());

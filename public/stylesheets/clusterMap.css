@@ -1,0 +1,19 @@
+#zoom {
+    background-color: #C5D1EB
+}
+
+#zoom:hover {
+    background-color: #92AFD7;
+}
+
+#all {
+    background-color: #C5D1EB
+}
+
+#all:hover {
+    background-color: #92AFD7;
+}
+
+.disappear {
+    display: none;
+}
